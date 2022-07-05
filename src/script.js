@@ -1,6 +1,8 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import vertex from './Shaders/vertex.glsl'
+import fragment from './Shaders/fragment.glsl'
 
 /**
  * Base
@@ -32,6 +34,7 @@ window.addEventListener('resize', () =>
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    
 })
 
 /**
@@ -51,9 +54,14 @@ controls.enableDamping = true
 /**
  * Cube
  */
+const material = new THREE.ShaderMaterial({
+    vertexShader: vertex,
+    fragmentShader: fragment
+})
 const cube = new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ color: 0xff0000 })
+    // new THREE.MeshBasicMaterial({ color: 0xff0000 })
+    material
 )
 scene.add(cube)
 
@@ -66,6 +74,7 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.setClearColor(0x333333)
 
 /**
  * Animate
